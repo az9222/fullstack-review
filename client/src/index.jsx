@@ -10,14 +10,18 @@ class App extends React.Component {
     this.state = { 
       repos: []
     }
-
   }
 
   search (term) {
     console.log(`${term} was searched`);
-    // TODO
+    $.ajax({
+      type: 'POST',
+      url: '/repos',
+      data: JSON.stringified(data),
+      contentType: 'application/json'
+    });
   }
-
+  
   render () {
     return (<div>
       <h1>Github Fetcher</h1>

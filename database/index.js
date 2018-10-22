@@ -5,7 +5,7 @@ var db = mongoose.connection;
 db.once('open', () => {
   console.log('connnection has been made');
   }).on('error', (error) => {console.log('Connection error', error)});
-
+ 
 let RepoSchema = mongoose.Schema({
   name: String,
   repos: Array, 
@@ -15,14 +15,20 @@ let RepoSchema = mongoose.Schema({
 let UsersRepoModel = mongoose.model('UsersReposModel', RepoSchema);
 
 //using validateBeforeSave. This function will save the relevant data from the GitHub API in the mongo database.
-let save = (name, repos) => {
+let save = (name, repos, callback) => {
+  console.log(name, repos)
   var repo = new UsersRepoModel({name, repos});
-  repo.save((err) => { //callback/promise
-    if (err) {
-      return handleError(err);
-    }
+  repo.save((err, repo) => { 
+    callback(err, repo);
   });
 }
 
+//find the repo by the name in the model
+let findByName = (username, callback) => {
+  UsersRepoModel.find({name: username}, (err, repos) => {
+    callback(err, repos); 
+  }).limit(25); //gets 25 of the repos
+}
+
 module.exports.save = save;
-module.exports.RepoSchema = RepoSchema;
+module.exports.findByName = findByName;

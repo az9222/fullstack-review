@@ -17,12 +17,21 @@ class App extends React.Component {
     $.ajax({
       type: 'POST',
       url: '/repos',
-      data: JSON.stringified(data),
+      data: JSON.stringify({username: term}),
+      success: (results) => {
+        // console.log("REPOS:", repos); //turned out to be an object with property repos
+        console.log("REPOS:", results);
+        var resultsRepos = this.state.repos.concat(results[0].repos); //dont want to mutate the original state
+        this.setState({
+          repos: resultsRepos
+        });
+      },
       contentType: 'application/json'
     });
   }
-  
+
   render () {
+    console.log(this.state.repos)
     return (<div>
       <h1>Github Fetcher</h1>
       <RepoList repos={this.state.repos}/>

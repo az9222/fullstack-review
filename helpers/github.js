@@ -13,6 +13,7 @@ let getReposByUsername = (username, callback) => {
 
   //callback is going to be what db.save(name, repos)
   request(options, (error, response, body) => {
+    console.log(response, body)
     if (error) {
       callback(null, null); //null name and null repos in save
     } else {

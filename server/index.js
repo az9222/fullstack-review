@@ -8,9 +8,10 @@ app.use(express.static(__dirname + '/../client/dist'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-//take the username and get the repo info from the github API and save the repo info in db. i dont need the repos, so I only pass a request on the username
+//take the username and get the repo info from the github API and save the repo info in db. 
 app.post('/repos', (req, res) => {
   if (req.body && req.body.username) {
+    //if the username is already in the database, jump to the 2nd else block and simply return out the results
     db.findByName(req.body.username, (err, repos) => {
       //if the database doesn't have the username because we didn't put the username in there yet, we go look for it in the githubApi
       if(repos.length === 0) {

@@ -19,9 +19,9 @@ class App extends React.Component {
       url: '/repos',
       data: JSON.stringify({username: term}),
       success: (results) => {
-        // console.log("REPOS:", repos); //turned out to be an object with property repos
+        // console.log("REPOS:", repos); //turned out to be an array with an object with property repos
         console.log("REPOS:", results);
-        var resultsRepos = this.state.repos.concat(results[0].repos); //dont want to mutate the original state
+        var resultsRepos = this.state.repos.concat(results[0].repos); //dont want to mutate the original state so concat makes a copy of the repos array and then populates it
         this.setState({
           repos: resultsRepos
         });
